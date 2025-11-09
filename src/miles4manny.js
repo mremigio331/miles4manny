@@ -5,32 +5,21 @@ import {
   Container,
   Heading,
   Text,
-  Input,
-  Checkbox,
-  CheckboxGroup,
   Button,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
 
 import NavBar from "./components/navbar";
 import { useMiles4MannyWorkouts } from "./providers/Miles4MannyWorkoutsProvider";
-
-// Import the new WorkoutMap component
 import WorkoutMap from "./components/WorkoutMap";
 
-// Use the default center directly
 const DEFAULT_CENTER = [47.298676735285866, -122.50927352084933];
 
 const Miles4Manny = () => {
-  const {
-    miles4mannyWorkouts,
-    isMiles4mannyWorkoutFetching,
-    isMiles4mannyWorkoutError,
-    miles4mannyWorkoutError,
-  } = useMiles4MannyWorkouts();
+  const { miles4mannyWorkouts, isMiles4mannyWorkoutFetching } =
+    useMiles4MannyWorkouts();
 
-  // Get all unique workout types from the data
+  // Collect all unique workout types
   const workoutTypes = React.useMemo(() => {
     const types = new Set();
     miles4mannyWorkouts.forEach((w) => {
@@ -39,88 +28,21 @@ const Miles4Manny = () => {
     return Array.from(types);
   }, [miles4mannyWorkouts]);
 
-  // Replace single selectedType string with an array of selected types
   const [selectedTypes, setSelectedTypes] = React.useState([]);
 
-  // When workoutTypes load, default select all types
   React.useEffect(() => {
     if (workoutTypes.length > 0 && selectedTypes.length === 0) {
       setSelectedTypes(workoutTypes);
     }
   }, [workoutTypes, selectedTypes.length]);
 
-  // Filtered workouts by selectedTypes (treat empty as all)
   const filteredWorkouts = React.useMemo(() => {
     if (!selectedTypes || selectedTypes.length === 0)
       return miles4mannyWorkouts;
     return miles4mannyWorkouts.filter((w) => selectedTypes.includes(w.type));
   }, [miles4mannyWorkouts, selectedTypes]);
 
-  // Handler for Mantine MultiSelect
-  // Search term for filtering types in the UI
-  const [searchTerm, setSearchTerm] = React.useState("");
-
-  // Handler for CheckboxGroup change (Chakra passes an array)
-  const handleMultiSelectChange = (value) => {
-    setSelectedTypes(value || []);
-  };
-
-  // Visible types after applying the search term
-  const visibleTypes = React.useMemo(() => {
-    if (!searchTerm) return workoutTypes;
-    const q = searchTerm.toLowerCase();
-    return workoutTypes.filter((t) => t.toLowerCase().includes(q));
-  }, [workoutTypes, searchTerm]);
-
-  const selectAllVisible = () => setSelectedTypes(visibleTypes.slice());
-  const clearSelection = () => setSelectedTypes([]);
-
   const mapCenter = DEFAULT_CENTER;
-
-  if (isMiles4mannyWorkoutFetching) {
-    return (
-      <Box minH="100vh" bg="gray.50">
-        <NavBar />
-        <Container maxW="6xl" py={12}>
-          <Heading
-            as="h1"
-            size="2xl"
-            textAlign="center"
-            mb={6}
-            color="gray.700"
-          >
-            Miles 4 Manny
-          </Heading>
-          <Text textAlign="center" color="gray.500" fontSize="lg">
-            Loading workouts...
-          </Text>
-        </Container>
-      </Box>
-    );
-  }
-
-  if (isMiles4mannyWorkoutError) {
-    return (
-      <Box minH="100vh" bg="gray.50">
-        <NavBar />
-        <Container maxW="6xl" py={12}>
-          <Heading
-            as="h1"
-            size="2xl"
-            textAlign="center"
-            mb={6}
-            color="gray.700"
-          >
-            Miles 4 Manny
-          </Heading>
-          <Text textAlign="center" color="red.500" fontSize="lg">
-            Error loading workouts:{" "}
-            {miles4mannyWorkoutError?.message || "Unknown error"}
-          </Text>
-        </Container>
-      </Box>
-    );
-  }
 
   return (
     <Box minH="100vh" bg="gray.50">
@@ -133,15 +55,80 @@ const Miles4Manny = () => {
           Celebrating a life full of motion, community, and endurance.
         </Text>
 
+        {/* --- GoFundMe Callout with Widget --- */}
         <Box
-          mt={12}
-          height="500px"
-          bg="white"
-          borderRadius="lg"
-          boxShadow="md"
-          overflow="hidden"
+          mt={10}
+          mb={8}
+          p={6}
+          bg="yellow.50"
+          borderRadius="md"
+          boxShadow="sm"
         >
-          <WorkoutMap center={mapCenter} workouts={filteredWorkouts} />
+          <VStack align="stretch" spacing={4}>
+            <Heading as="h2" textAlign="center" mb={6} color="gray.700">
+              Help honor Jemanual’s legacy
+            </Heading>
+            <Text
+              fontSize="md"
+              color="gray.600"
+              textAlign="left"
+              mt={2}
+              px={10}
+              py={5}
+            >
+              We’re raising funds for a memorial bench in Tacoma to celebrate
+              Jemanual Concepcion—an inspiring runner, cyclist, and friend who
+              always made sure no one was left behind. The bench will be a place
+              to reflect, rest, and remember the joy and community he shared
+              with everyone.
+            </Text>
+
+            {/* Embedded GoFundMe Widget */}
+            <Box
+              mt={4}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              overflow="hidden"
+              lineHeight="0"
+            >
+              <iframe
+                title="GoFundMe - Support a Memorial Bench for Jemanual Concepcion"
+                src="https://www.gofundme.com/f/support-a-memorial-bench-for-jemanual-concepcion/widget/large"
+                style={{
+                  width: "100%",
+                  maxWidth: "480px",
+                  height: "600px",
+                  border: "none",
+                  display: "block",
+                  overflow: "hidden",
+                }}
+              />
+            </Box>
+
+            <Box textAlign="center" pt={2}>
+              <Button
+                as="a"
+                href="https://www.gofundme.com/f/support-a-memorial-bench-for-jemanual-concepcion"
+                target="_blank"
+                rel="noopener noreferrer"
+                colorScheme="teal"
+                size="md"
+              >
+                Visit GoFundMe Page
+              </Button>
+            </Box>
+          </VStack>
+        </Box>
+
+        {/* --- Map Section (no fixed height, no overflow) --- */}
+        <Box mt={12} bg="white" borderRadius="lg" boxShadow="md" p={0}>
+          <WorkoutMap
+            center={mapCenter}
+            workouts={filteredWorkouts}
+            isMiles4mannyWorkoutFetching={isMiles4mannyWorkoutFetching}
+            mapHeight={500} // control map height here
+          />
         </Box>
       </Container>
     </Box>
