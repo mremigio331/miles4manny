@@ -5,7 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AWS from "aws-sdk";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import Miles4Manny from "./Miles4Manny";
+import Miles4Manny from "./miles4manny";
+import ApiProvider from "./providers/ApiProvider";
+
+import { Miles4MannyWorkoutsProvider } from "./providers/Miles4MannyWorkoutsProvider";
 
 const queryClient = new QueryClient();
 
@@ -29,7 +32,11 @@ document.head.appendChild(style);
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <ChakraProvider>
-      <Miles4Manny />
+      <ApiProvider>
+        <Miles4MannyWorkoutsProvider>
+          <Miles4Manny />
+        </Miles4MannyWorkoutsProvider>
+      </ApiProvider>
     </ChakraProvider>
-  </QueryClientProvider>
+  </QueryClientProvider>,
 );

@@ -1,9 +1,5 @@
-import React from 'react';
-import {
-  Flex,
-  Heading,
-
-} from '@chakra-ui/react';
+import React from "react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 const NavBar = () => {
   return (
@@ -22,6 +18,6 @@ const NavBar = () => {
       </Flex>
     </>
   );
-}
+};
 
 export default NavBar;
