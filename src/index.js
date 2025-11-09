@@ -7,7 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import Miles4Manny from "./miles4manny";
 import ApiProvider from "./providers/ApiProvider";
-import {DeviceTypeProvider} from "./providers/DeviceTypeProvider";
+import { DeviceTypeProvider } from "./providers/DeviceTypeProvider";
 
 import { Miles4MannyWorkoutsProvider } from "./providers/Miles4MannyWorkoutsProvider";
 
@@ -34,11 +34,11 @@ createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <ChakraProvider>
       <DeviceTypeProvider>
-      <ApiProvider>
-        <Miles4MannyWorkoutsProvider>
-          <Miles4Manny />
-        </Miles4MannyWorkoutsProvider>
-      </ApiProvider>
+        <ApiProvider>
+          <Miles4MannyWorkoutsProvider>
+            <Miles4Manny />
+          </Miles4MannyWorkoutsProvider>
+        </ApiProvider>
       </DeviceTypeProvider>
     </ChakraProvider>
   </QueryClientProvider>,

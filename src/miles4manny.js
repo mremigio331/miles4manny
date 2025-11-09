@@ -51,7 +51,8 @@ const Miles4Manny = () => {
 
   // Filtered workouts by selectedTypes (treat empty as all)
   const filteredWorkouts = React.useMemo(() => {
-    if (!selectedTypes || selectedTypes.length === 0) return miles4mannyWorkouts;
+    if (!selectedTypes || selectedTypes.length === 0)
+      return miles4mannyWorkouts;
     return miles4mannyWorkouts.filter((w) => selectedTypes.includes(w.type));
   }, [miles4mannyWorkouts, selectedTypes]);
 
@@ -148,4 +149,3 @@ const Miles4Manny = () => {
 };
 
 export default Miles4Manny;
-
