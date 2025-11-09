@@ -3,7 +3,7 @@ import { useContext, useMemo } from "react";
 import { useApi } from "../providers/ApiProvider";
 import { apiRequestGet } from "../api/apiRequest";
 
-const fetchAllWorkouts = async (apiEndpoint, idToken) => {
+const fetchAllWorkouts = async (apiEndpoint) => {
   let allWorkouts = [];
   let nextToken = null;
   let prevToken = null;
@@ -13,7 +13,7 @@ const fetchAllWorkouts = async (apiEndpoint, idToken) => {
     let endpoint = `/strava/miles4manny?limit=${limit}`;
     if (nextToken) endpoint += `&next_token=${encodeURIComponent(nextToken)}`;
 
-    const response = await apiRequestGet(apiEndpoint, endpoint, idToken);
+    const response = await apiRequestGet(apiEndpoint, endpoint);
     const data = response.data;
 
     allWorkouts = allWorkouts.concat(data.workouts || []);
@@ -50,7 +50,7 @@ const useGetMiles4MannyWorkouts = () => {
     // Do NOT set refetchInterval
   });
 
-  if (stage === "dev" || stage === "staging") {
+  if (stage === "Dev" || stage === "Staging") {
     console.log("Strava Workouts Data:", data);
     console.log("Strava Workouts Status:", status);
     console.log("Strava Workouts Error:", error);

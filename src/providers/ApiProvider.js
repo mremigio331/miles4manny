@@ -4,6 +4,7 @@ import {
   PROD_API_ENDPOINT,
   STAGING_API_ENDPOINT,
 } from "../constants/endpoints";
+import { DEV } from "../constants/stages";
 
 const endpointMap = {
   prod: PROD_API_ENDPOINT,
@@ -33,7 +34,7 @@ export const ApiProvider = ({ children }) => {
 
   // Only allow changing endpoint in dev
   const setApiEndpoint = (newEndpoint) => {
-    if (state.stage === "dev") {
+    if (state.stage === DEV) {
       dispatch({ type: "SET_ENDPOINT", payload: newEndpoint });
     }
   };
@@ -45,7 +46,7 @@ export const ApiProvider = ({ children }) => {
     () => ({
       apiEndpoint: state.apiEndpoint,
       stage: state.stage,
-      setApiEndpoint: state.stage === "dev" ? stableSetApiEndpoint : undefined,
+      setApiEndpoint: state.stage === DEV ? stableSetApiEndpoint : undefined,
     }),
     [state.apiEndpoint, state.stage, stableSetApiEndpoint],
   );
