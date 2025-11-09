@@ -79,7 +79,7 @@ const WorkoutMap = ({
         <Center height="100%" flexDirection="column" mt={8}>
           <Spinner size="xl" color="teal.500" thickness="4px" />
           <Text mt={4} color="gray.600" fontWeight="medium">
-            Loading Manny&apos;s Workouts
+            Loading Jemanual&apos;s Workouts
           </Text>
         </Center>
       ) : (

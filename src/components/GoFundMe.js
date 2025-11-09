@@ -10,7 +10,7 @@ const GoFundMeSection = () => {
   React.useEffect(() => {
     const update = () =>
       setSrc(
-          "https://www.gofundme.com/f/support-a-memorial-bench-for-jemanual-concepcion/widget/medium",
+        "https://www.gofundme.com/f/support-a-memorial-bench-for-jemanual-concepcion/widget/medium",
       );
     update();
     window.addEventListener("resize", update);
